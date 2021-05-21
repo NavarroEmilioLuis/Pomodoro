@@ -4,8 +4,8 @@ import Timer from './components/Timer';
 import TimerButton from './components/TimerButton';
 import ResetButton from './components/ResetButton';
 
-const timerOneInitial = 25 * 60;
-const timerTwoInitial = 5 * 60;
+const timerOneInitial = 25 * 0.60;
+const timerTwoInitial = 5 * 0.60;
 
 export default class App extends React.Component {
   state = {
@@ -43,18 +43,19 @@ export default class App extends React.Component {
     if (this.state.timerOneSeconds === 0 && this.state.timerTwoSeconds === 0) {
       // Pomodoro timer finished
       this.reset();
-      Vibration.vibrate(1000);
     } else if (timer === 1) {
       this.setState(prevState => {
         const seconds = prevState.timerOneSeconds - 1;
         const nextTimer = seconds === 0 ? 2 : 1;
-        if (nextTimer === 2)
+        if (seconds === 0)
           Vibration.vibrate();
         return ({current: nextTimer, timerOneSeconds: seconds});
       });
     } else if (timer === 2) {
       this.setState(prevState => {
         const seconds = prevState.timerTwoSeconds - 1;
+        if (seconds === 0)
+          Vibration.vibrate(1000);
         return ({timerTwoSeconds: seconds});
       });
     }

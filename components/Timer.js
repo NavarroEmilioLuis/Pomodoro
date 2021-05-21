@@ -4,11 +4,12 @@ import { StyleSheet, Text, View } from 'react-native';
 const formatSeconds = totalSeconds => {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds - (minutes * 60);
-  return `${minutes}:${seconds.toLocaleString(undefined, {minimumIntegerDigits: 2})}`;
+  const formattedSeconds = seconds < 10 ? `0${seconds}`: seconds;
+  return `${minutes}:${formattedSeconds}`;
 };
 
 export default function Timer(props) {
-  const red = props.seconds === 0 ? styles.red : null;
+  const red = props.seconds === 0 ? styles.red : styles.black;
 
   return (
     <View style={styles.container}>
@@ -33,5 +34,8 @@ const styles = StyleSheet.create({
   },
   red: {
     color: "#e00"
+  },
+  black: {
+    color: "#000"
   }
 });
