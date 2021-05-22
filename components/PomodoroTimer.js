@@ -7,10 +7,10 @@ import ResetButton from './ResetButton';
 export default class PomodoroTimer extends React.Component {
   state = {
     isRunning: false,
-    current: 1,
+    isTaskWork: true,
     timerId: null,
-    timerOneSeconds: this.props.timerOne,
-    timerTwoSeconds: this.props.timerTwo,
+    workSeconds: this.props.workTime,
+    breakSeconds: this.props.breakTime,
   }
 
   start = () => {
@@ -27,34 +27,44 @@ export default class PomodoroTimer extends React.Component {
     clearInterval(this.state.timerId);
     this.setState({
       isRunning: false,
-      current: 1,
+      isTaskWork: true,
       timerId: null,
-      timerOneSeconds: this.props.timerOne,
-      timerTwoSeconds: this.props.timerTwo
+      workSeconds: this.props.workTime,
+      breakSeconds: this.props.breakTime
     });
   }
 
   updateTimer = () => {
-    const timer = this.state.current;
-
-    if (timer === 1) {
+    if (this.state.isTaskWork) {
       this.setState(prevState => {
-        const seconds = prevState.timerOneSeconds - 1;
+        const seconds = prevState.workSeconds - 1;
+
         if (seconds === 0) {
           Vibration.vibrate();
-          return {current: 2, timerOneSeconds: 0, timerTwoSeconds: this.props.timerTwo};
+          return {
+            isTaskWork: false, 
+            workSeconds: 0, 
+            breakSeconds: this.props.breakTime
+          };
         }
-        return {timerOneSeconds: seconds};
+
+        return {workSeconds: seconds};
       });
     }
-    else if (timer === 2) {
+    else {
       this.setState(prevState => {
-        const seconds = prevState.timerTwoSeconds - 1;
+        const seconds = prevState.breakSeconds - 1;
+
         if (seconds === 0) {
           Vibration.vibrate();
-          return {current: 1, timerOneSeconds: this.props.timerOne, timerTwoSeconds: 0};
+          return {
+            isTaskWork: true, 
+            workSeconds: this.props.workTime, 
+            breakSeconds: 0
+          };
         }
-        return {timerTwoSeconds: seconds};
+
+        return {breakSeconds: seconds};
       });
     }
   }
@@ -62,8 +72,8 @@ export default class PomodoroTimer extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Timer seconds={this.state.timerOneSeconds} />
-        <Timer seconds={this.state.timerTwoSeconds} />
+        <Timer seconds={this.state.workSeconds} />
+        <Timer seconds={this.state.breakSeconds} />
         <TimerButton 
           isRunning={this.state.isRunning} 
           start={this.start}
