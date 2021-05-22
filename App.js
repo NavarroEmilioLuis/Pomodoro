@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import PomodoroTimer from './components/PomodoroTimer'
 
 export default class App extends React.Component {
   state = {
-    workTime: 5 * 0.60,
-    breakTime: 5 * 0.60,
+    workTime: 25 * 60,
+    breakTime: 5 * 60,
   }
 
   render() {
@@ -17,12 +16,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

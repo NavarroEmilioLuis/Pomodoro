@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Vibration, View } from 'react-native';
+import { StyleSheet, Text, Vibration, View } from 'react-native';
 import Timer from './Timer';
 import TimerButton from './TimerButton';
 import ResetButton from './ResetButton';
@@ -72,6 +72,7 @@ export default class PomodoroTimer extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.text}>{this.state.isTaskWork ? "Work" : "Break"}</Text>
         <Timer seconds={this.state.workSeconds} />
         <Timer seconds={this.state.breakSeconds} />
         <TimerButton 
@@ -91,5 +92,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  text: {
+    fontSize: 50,
+    fontWeight: "bold"
   },
 });

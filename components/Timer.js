@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+// Returns string of mm:ss given an amount of seconds
 const formatSeconds = totalSeconds => {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds - (minutes * 60);
+  const formattedMinutes = minutes < 10 ? `0${minutes}`: minutes;
   const formattedSeconds = seconds < 10 ? `0${seconds}`: seconds;
-  return `${minutes}:${formattedSeconds}`;
+  return `${formattedMinutes}:${formattedSeconds}`;
 };
 
 export default function Timer(props) {
