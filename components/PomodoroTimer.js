@@ -36,24 +36,25 @@ export default class PomodoroTimer extends React.Component {
 
   updateTimer = () => {
     const timer = this.state.current;
-    
-    if (this.state.timerOneSeconds === 0 && this.state.timerTwoSeconds === 0) {
-      // Pomodoro timer finished
-      this.reset();
-    } else if (timer === 1) {
+
+    if (timer === 1) {
       this.setState(prevState => {
         const seconds = prevState.timerOneSeconds - 1;
-        const nextTimer = seconds === 0 ? 2 : 1;
-        if (seconds === 0)
+        if (seconds === 0) {
           Vibration.vibrate();
-        return ({current: nextTimer, timerOneSeconds: seconds});
+          return {current: 2, timerOneSeconds: 0, timerTwoSeconds: this.props.timerTwo};
+        }
+        return {timerOneSeconds: seconds};
       });
-    } else if (timer === 2) {
+    }
+    else if (timer === 2) {
       this.setState(prevState => {
         const seconds = prevState.timerTwoSeconds - 1;
-        if (seconds === 0)
-          Vibration.vibrate(1000);
-        return ({timerTwoSeconds: seconds});
+        if (seconds === 0) {
+          Vibration.vibrate();
+          return {current: 1, timerOneSeconds: this.props.timerOne, timerTwoSeconds: 0};
+        }
+        return {timerTwoSeconds: seconds};
       });
     }
   }
